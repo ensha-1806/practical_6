@@ -10,10 +10,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
 
 st.title("Titanic Survival Prediction App")
-
-# ---------------------------
-# File Upload
-# ---------------------------
 uploaded_file = st.file_uploader("Upload Titanic Dataset CSV", type=["csv"])
 
 if uploaded_file is not None:
@@ -23,9 +19,6 @@ if uploaded_file is not None:
     st.subheader("Dataset Preview")
     st.write(df.head())
 
-    # ---------------------------
-    # Data Preprocessing
-    # ---------------------------
     df['Age'] = df['Age'].fillna(df['Age'].median())
     df['Fare'] = df['Fare'].fillna(df['Fare'].median())
     df = df.dropna(subset=['Embarked'])
@@ -36,9 +29,6 @@ if uploaded_file is not None:
             'Sex_male', 'Embarked_Q', 'Embarked_S']]
     y = df['Survived']
 
-    # ---------------------------
-    # Train Test Split
-    # ---------------------------
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42)
 
@@ -51,16 +41,9 @@ if uploaded_file is not None:
 
     y_pred = model.predict(X_test)
 
-    # ---------------------------
-    # Show Accuracy
-    # ---------------------------
     acc = accuracy_score(y_test, y_pred)
     st.subheader("Model Accuracy")
     st.write(round(acc, 3))
-
-    # ---------------------------
-    # Confusion Matrix
-    # ---------------------------
     st.subheader("Confusion Matrix")
     cm = confusion_matrix(y_test, y_pred)
 
@@ -69,10 +52,6 @@ if uploaded_file is not None:
     ax.set_xlabel("Predicted")
     ax.set_ylabel("Actual")
     st.pyplot(fig)
-
-    # ---------------------------
-    # Manual Prediction Section
-    # ---------------------------
     st.subheader("Predict Survival")
 
     pclass = st.selectbox("Passenger Class", [1, 2, 3])
